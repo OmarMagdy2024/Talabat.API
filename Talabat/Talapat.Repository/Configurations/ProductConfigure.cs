@@ -7,32 +7,29 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Models;
 
-namespace Talabat.Core.Configurations
+namespace Talabat.Repository.Configurations
 {
 	public class ProductConfigure : IEntityTypeConfiguration<Product>
 	{
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
-			builder.Property(p=>p.Name)
+			builder.Property(p=> p.Name)
 				   .IsRequired();
 
-			builder.Property(p=>p.Description)
+			builder.Property(builder=> builder.Description)
 				   .IsRequired();
 
-			builder.Property(p=>p.PictureUrl)
-				   .IsRequired();
-
-			builder.Property(p => p.Price)
+			builder.Property(p=>p.Price)
 				   .IsRequired()
 				   .HasColumnType("decimal(18,2)");
 
 			builder.HasOne(p => p.ProductBrand)
 				   .WithMany()
-				   .HasForeignKey(p=>p.BrandId);
+				   .HasForeignKey(p => p.BrandId);
 
-			builder.HasOne(p=>p.ProductType)
+			builder.HasOne(p => p.ProductType)
 				   .WithMany()
-				   .HasForeignKey(p=>p.TypeId);
+				   .HasForeignKey(p => p.TypeId);
 		}
 	}
 }
