@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Talabat.Repository.Connections;
+using Talabat.Repository.DataSeeding;
 
 namespace Talabat.API;
 
@@ -36,6 +37,7 @@ public class Program
         try
         {
             await dbcontext.Database.MigrateAsync();
+            await TalabatContextSeed.SeedAsync(dbcontext);
         }
         catch (Exception ex)
         {
