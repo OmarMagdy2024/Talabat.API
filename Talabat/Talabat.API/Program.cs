@@ -1,7 +1,10 @@
 
 using Microsoft.EntityFrameworkCore;
+using Talabat.Core.Interfaces;
+using Talabat.Core.Models;
 using Talabat.Repository.Connections;
 using Talabat.Repository.DataSeeding;
+using Talabat.Repository.Repositories;
 
 namespace Talabat.API;
 
@@ -18,7 +21,10 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddDbContext<TalabatDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulfConnection")));
-
+        //builder.Services.AddScoped<IGenaricRepository<Product>, GenaricRepository<Product>>();
+        //builder.Services.AddScoped<IGenaricRepository<ProductBrand>, GenaricRepository<ProductBrand>>();
+        //builder.Services.AddScoped<IGenaricRepository<ProductType>, GenaricRepository<ProductType>>();
+        builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenaricRepository<>));
         var app = builder.Build();
 
         //{
