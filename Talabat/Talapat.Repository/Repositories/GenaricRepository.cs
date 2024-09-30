@@ -34,7 +34,7 @@ namespace Talabat.Repository.Repositories
 		{
 			if(typeof(T)==typeof(Product))
 			{
-				return (IEnumerable<T>) _talabatDBContext.Set<Product>().Include(p => p.ProductBrand).Include(p => p.ProductType).ToListAsync();
+				return (IEnumerable<T>) await _talabatDBContext.Set<Product>().Include(p => p.ProductBrand).Include(p => p.ProductType).ToListAsync();
 			}
 			return await _talabatDBContext.Set<T>().ToListAsync();
 		}
@@ -43,7 +43,7 @@ namespace Talabat.Repository.Repositories
 		{
 			if (typeof(T) == typeof(Product))
 			{
-				//return _talabatDBContext.Set<Product>().Where(p=>p.Id==id).Include(p => p.ProductBrand).Include(p => p.ProductType).FirstOrDefaultAsync();
+				return await _talabatDBContext.Set<Product>().Where(p => p.Id == id).Include(p => p.ProductBrand).Include(p => p.ProductType).FirstOrDefaultAsync() as T;
 			}
 			return await _talabatDBContext.Set<T>().FindAsync(id);
 		}

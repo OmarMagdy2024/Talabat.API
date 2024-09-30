@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.Core.Interfaces;
 using Talabat.Core.Models;
@@ -17,15 +18,20 @@ namespace Talabat.API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Index()
+		public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
 		{
-			return await _genaricRepository.GetAllAsync();
+			var product = await _genaricRepository.GetAllAsync();
+			if (product == null)
+			{
+				return NotFound(new {message="Not Found",CodeStatus=404});
+			}
+			return Ok(product);
 		}
 
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetById(int id)
+		public async Task<ActionResult<Product>> GetProductById(int id)
 		{
-			return await _genaricRepository.GetByIdAsync(id);
+			return Ok(await _genaricRepository.GetByIdAsync(id));
 		}
     }
 }
